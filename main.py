@@ -51,6 +51,7 @@ def start(bot, update):
             bot.send_message(chat_id=id_, text="{} attempted to access".format(update.message.chat_id))
         return
     
+    term.current_dir = term.start_dir
     reply_markup = InlineKeyboardMarkup(term.ls())
     update.message.reply_text(term.current_dir, reply_markup=reply_markup)
 
