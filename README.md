@@ -21,9 +21,9 @@ Before starting up the bot you have to take care of some settings. You need to e
 ### SECRETS.txt
   - First line: Your user ID. The bot will only reply to messages from this user. If you don't know your user ID, send a message to `userinfobot` and he will reply your ID. If you have more than one telegram account you can enter comma-separated IDs, as in the sample file.
   
-  -Second line: The token that identifies your bot. You will get this from 'BotFather' when you create your bot. If you don't know how to register your bot, follow [these instructions](https://core.telegram.org/bots#3-how-do-i-create-a-bot)
+  - Second line: The token that identifies your bot. You will get this from 'BotFather' when you create your bot. If you don't know how to register your bot, follow [these instructions](https://core.telegram.org/bots#3-how-do-i-create-a-bot)
  
-  -Third line (optional): The starting directory, if this line is empty there will be the directory where it is main.py
+  - Third line (optional): The starting directory, if this line is empty there will be the directory where it is main.py
 
 
 ## Installation
