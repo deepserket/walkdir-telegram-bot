@@ -11,9 +11,11 @@ The limit of (vertical) buttons is 52 (but it wasn't 42 the answer to everything
 
 The telegram limit of the data that each button can hold is 64 bytes, so files or directories with a name longer than 63 bytes are not shown.
 
+The limit of files that bots can upload is 50MB.
+
 The code is ugly.
 
-Maybe this bot can be cracked, reading this [issue](https://github.com/python-telegram-bot/python-telegram-bot/issues/709) has come to me this idea
+Maybe this bot can be cracked, reading this [issue](https://github.com/python-telegram-bot/python-telegram-bot/issues/709) has come to me this idea.
 
 ## Configuration
 Before starting up the bot you have to take care of some settings. You need to edit one file:
