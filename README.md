@@ -7,8 +7,6 @@ This bot only works on linux (maybe even on MacOS, but I have not tried it), in 
 
 This script is in alpha, so there may be several problems like files that are not read etc ... (no, your pc is not likely to explode)
 
-The limit of (vertical) buttons is 52 (but it wasn't 42 the answer to everything?) So you can see up to 52 files and directories.
-
 The telegram limit of the data that each button can hold is 64 bytes, so files or directories with a name longer than 63 bytes are not shown.
 
 The limit of files that bots can upload is 50MB.
