@@ -13,11 +13,23 @@ def check_file(f): # check the file name...
     
     return True
 
+def build_menu(buttons, header=None, footer=None): # stoled from https://github.com/Endogen/Telegram-Kraken-Bot/blob/master/telegram_kraken_bot.py
+    menu = buttons
+
+    if header:
+        menu.insert(0, [header])
+    if footer:
+        menu.append([footer])
+
+    return menu
+
+
 class Terminal:
     
     def __init__(self, start_dir):
         self.start_dir = start_dir
         self.current_dir = start_dir
+        self.files = [] # files and directiries in current_dir
     
     def cd(self, dir_name=None):
         """ if dir_name is None move to start_dir, else change directory """
@@ -52,7 +64,26 @@ class Terminal:
             if os.path.isfile(path):
                 kb.append([InlineKeyboardButton("file: {}".format(f),
                             callback_data="{}f".format(f))])
-        return kb[:52] # damn telegram buttons's limit... this line is temporary, i just have to think about bypass this limit
+        return kb
+    
+    def create_keyboard(self, window=0):
+        self.files = self.ls()
+        
+        if len(self.files) <= 52:
+            return self.files
+        
+        start = 0 if window == 0 else window * 50
+        stop = start + 50
+        
+        head = None if start == 0 else (InlineKeyboardButton("<<<PREVIOUS<<<",
+                                          callback_data="{}w".format(window-1)))
+                                           
+        foot = None if stop > len(self.files) else (InlineKeyboardButton(">>>NEXT>>>",
+                                          callback_data="{}w".format(window+1)))
+        
+        kb = build_menu(self.files[start:stop], header=head, footer=foot)
+        return kb
+        
 
 
 # working in progress...
