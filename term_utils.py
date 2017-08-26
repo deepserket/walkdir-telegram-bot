@@ -137,7 +137,7 @@ class Terminal:
         if not text.endswith('\n') and not text.endswith('$!nl$'): 
             text += '\n'
         
-        text.replace('$!nl$', '') # remove no newlines
+        text = text.replace('$!nl$', '') # remove no newlines
         self.stdin.sendall(text.encode('utf-8'))
     
     	
