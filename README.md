@@ -3,7 +3,7 @@
 With this bot you can access your pc via telegram, navigate through directories and download the files you want
 
 ## Warnings
-This bot only works on linux (maybe even on MacOS, but I have not tried it), in the future I will add support to other operating systems.
+This bot only works on linux (maybe even on MacOS, but I have not tried it), in the future I will add support to other operating systems (Sorry, but on every feature I add support to not linux OS seems farther away ).
 
 This script is in alpha, so there may be several problems like files that are not read etc ... (no, your pc is not likely to explode)
 
@@ -11,9 +11,7 @@ The telegram limit of the data that each button can hold is 64 bytes, so files o
 
 The limit of files that bots can upload is 50MB.
 
-The code is ugly.
-
-Maybe this bot can be cracked, reading this [issue](https://github.com/python-telegram-bot/python-telegram-bot/issues/709) has come to me this idea.
+The code is ugly (thanks to the Terminal feature is really, really ugly).
 
 ## Configuration
 Before starting up the bot you have to take care of some settings. You need to edit one file:
@@ -40,12 +38,13 @@ To start the script, execute `python3 main.py`.
 
 ## Usage
 If you configured the bot correctly and execute the script, in the logs the bot will ask to send the command `/start`.
-As soon as you have sent the command will appear a set of buttons, if you click on a folder (dir :) you will enter it, if you click on a file (file :) the bot will send it.
+As soon as you have sent the command will appear a set of buttons, if you click on `START TERMINAL HERE` a new terminal spawn on the desktop (this function is in alpha), and you can send commands both from telegram and the new terminal, if you click on a folder (dir :) you will enter it, if you click on a file (file :) the bot will send it.
 
 
 ### Available commands
 - `/start` Starts navigating directories, also change the current directory to the start directory
-- `/stop`  Shutdown the bot
+- `/stop`  Shutdown the bot (please use this command instead of ctrl-z)
 
 ## TODO
-  - write TODO
+  - improve terminal feature (there are a tons of bugs)
+  - write others TODO
