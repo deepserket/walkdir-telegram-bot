@@ -16,7 +16,7 @@ def check_file(f): # check the file name...
     
     return True
 
-def build_menu(buttons, header=None, footer=None): # stoled from https://github.com/Endogen/Telegram-Kraken-Bot/blob/master/telegram_kraken_bot.py
+def build_menu(buttons, header=None, footer=None):
     menu = buttons
 
     if header:
@@ -91,7 +91,7 @@ class Terminal:
         
     def start_real_terminal(self):
         stdout_bot = socket.socket()
-        stdout_bot.bind(("localhost", 3100))
+        stdout_bot.bind(("localhost", 3300))
         stdout_bot.listen(1)
         
         # only at this point i can start the real_terminal, because stdout_bot 
@@ -103,11 +103,11 @@ class Terminal:
 
         sleep(0.1)
         stdin = socket.socket()
-        stdin.connect(("localhost", 3101))
+        stdin.connect(("localhost", 3301))
 
         sleep(0.1)
         shutdown = socket.socket()
-        shutdown.connect(("localhost", 3102))
+        shutdown.connect(("localhost", 3302))
         
         self.stdout = stdout # stdout from terminal to telegram
         self.stdin = stdin # stdin from telegram to terminal
@@ -122,21 +122,23 @@ class Terminal:
     
     
     def send_stdin_real_terminal(self, text):
-        # TODO add more (like crtl-z, ctrl-c, etc...)
         """
-        $tabs$ -> 4 spaces
-        $tab$  -> tab
-        $nl$   -> new line '\n'
-        $!nl$  -> not new line (works at the end of the text)
-        ...
+        Special sequences...
+        $tabs$   -> 4 spaces
+        $tab$    -> tab
+        $nl$     -> new line '\n'
+        $!nl$    -> not new line (works at the end of the text)
+        $ctrl-z$ -> send ctrl-z
+        $ctrl-c$ -> send ctrl-c
         """
         text = text.replace('$tabs$', '    ') # tab (4 spaces)
         text = text.replace('$tab$', '	') # tab
         text = text.replace('$nl$', '\n') # new line
-        # text = text.replace('$crtl-z$')  TODO add buttons for this & company
+        text = text.replace('$ctrl-z$', '\x1a$!nl$') # ctrl-z (not newline)
+        text = text.replace('$ctrl-c$', '\x03$!nl$') # ctrl-c (not newline)
+        # TODO add others...
         if not text.endswith('\n') and not text.endswith('$!nl$'): 
             text += '\n'
-        
         text = text.replace('$!nl$', '') # remove no newlines
         self.stdin.sendall(text.encode('utf-8'))
     
@@ -152,15 +154,14 @@ class Terminal:
                 break
             
             new_text = self.stdout.recv(4096).decode('utf-8').replace('\r\n', '\n')
-            """
-            old_lines = len(self.text_stdout)
-            start = old_lines - 5 if old_lines > 5 else 0
             
-            text_stdout = ('\n'.join(self.text_stdout) + new_text).split('\n')
-            self.text_stdout = text_stdout[start:]
-            """
-            self.text_stdout += new_text
-            print('\n\nself.text_stdout get_stdout_real_terminal\n', self.text_stdout, '\n\n')
+            if '\x08' in new_text: # cancel one char
+                self.text_stdout = self.text_stdout[:-1]
+            elif '\x07' in new_text:
+                pass # nothing to delete...
+            else:
+                self.text_stdout += new_text
+    
     
     def close_real_terminal(self):
         if not self.is_started_real_terminal: return # if is already closed
@@ -182,5 +183,4 @@ class Terminal:
         
         self.stop_read_stdout = False
         self.text_stdout = []
-
 
