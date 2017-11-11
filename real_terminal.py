@@ -10,42 +10,32 @@ from pty import (STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO, CHILD, fork,
 
 # send terminal stdout to telegram
 stdout_bot = socket.socket()
-stdout_bot.connect(("localhost", 3100))
+stdout_bot.connect(("localhost", 3300))
 
 # read telegram messages
 stdin_bot = socket.socket()
-stdin_bot.bind(("localhost", 3101))
+stdin_bot.bind(("localhost", 3301))
 stdin_bot.listen(1)
 conn_stdin, addr = stdin_bot.accept()
 STDIN_BOT_FILENO = conn_stdin.fileno()
 
 # shutdown signal
 shutdown = socket.socket()
-shutdown.bind(("localhost", 3102))
+shutdown.bind(("localhost", 3302))
 shutdown.listen(1)
 conn_shutdown, addr = shutdown.accept()
 SHUTDOWN_FILENO = conn_shutdown.fileno()
-
-
-def stupid_escape(s):# TODO maybe this 'thing' can be implemented with a regex
-    """ delete all chars between start and stop """
-    start = '\x1b'    
-    stop = '\x07'
-    new = ''
-    escape = False
-    for c in s:
-        if c == start: escape = True
-        if not escape: new += c
-        if c == stop: escape = False
-    return new
 
 
 def escape_ansi(line):
     """ remove ansi colors and others escape sequences... """
     ansi_escape = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
     line = ansi_escape.sub('', line.decode('utf-8'))
-    line = stupid_escape(line)
-    return line.encode('utf-8')
+    
+    #delete all chars between \x1b and \x07
+    target_replace = re.search(r'(\x1b)(.*?)(\x07)', line)
+    target_replace = target_replace.group(0) if target_replace is not None else '' 
+    return line.replace(target_replace, '').encode('utf-8')
 
 
 def _copy(master_fd, master_read=_read, stdin_read=_read):
@@ -113,4 +103,3 @@ if __name__ == '__main__':
         stdout_bot.close()
         stdin_bot.close()
         shutdown.close()
-
