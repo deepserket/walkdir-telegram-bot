@@ -138,11 +138,7 @@ def communicate(bot, update):
     if not term.is_started_real_terminal:
         update.message.reply_text("Terminal is not running")
     else:
-        #update.message.reply_text('_')
-        #last_message_id += 2
         term.send_stdin_real_terminal(update.message.text)
-        #bot.delete_message(chat_id=update.message.chat_id,
-        #                   message_id=update.message.message_id)
 
 
 def shutdown():
@@ -173,4 +169,3 @@ updater.dispatcher.add_handler(CallbackQueryHandler(callback))
 
 updater.start_polling()
 updater.idle()
-
