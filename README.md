@@ -1,6 +1,12 @@
 # Telegram Walkdir Bot
 
-With this bot you can access your pc via telegram, navigate through directories and download the files you want
+With this bot you can access your pc via telegram, navigate through directories, download the files you want and spawn&use a real terminal.
+
+<p align="center">
+  <img src="output_file.gif" alt="Demo GIF of bot">
+</p>
+Better quality [here](https://youtu.be/NZiuGb-x3RQ)
+
 
 ## Warnings
 This bot only works on linux (maybe even on MacOS, but I have not tried it), in the future I will add support to other operating systems (Sorry, but on every feature I add support to not linux OS seems farther away ).
